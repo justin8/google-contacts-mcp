@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "google-contacts-mcp"
+version = "0.1.0"
+description = "Model Context Protocol (MCP) server for Google Contacts"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+    { name = "Justin Dray", email = "justin@dray.be" }
+]
+license = { text = "MIT" }
+dependencies = [
+    "mcp>=1.0.0",
+    "google-api-python-client>=2.100.0",
+    "google-auth-oauthlib>=1.2.0",
+    "google-auth-httplib2>=0.2.0",
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+google-contacts-mcp = "google_contacts_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/google_contacts_mcp"]
