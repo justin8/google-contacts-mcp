@@ -1,6 +1,6 @@
 [project]
 name = "google-contacts-mcp"
-version = "1.0.4"
+version = "1.0.5"
 description = "Model Context Protocol (MCP) server for Google Contacts"
 authors = [{ name = "Justin Dray", email = "justin@dray.be" }]
 requires-python = ">=3.11,<4"
