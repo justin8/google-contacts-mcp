@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   build-and-test:
     uses: justin8/workflows/.github/workflows/python-build-test.yml@main
