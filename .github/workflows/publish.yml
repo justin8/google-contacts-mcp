@@ -1,0 +1,15 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    uses: justin8/workflows/.github/workflows/python-build-test.yml@main
+
+  tag-and-publish:
+    uses: justin8/workflows/.github/workflows/python-tag-and-publish.yml@main
+    needs: build-and-test
+    secrets: inherit

@@ -1,0 +1,7 @@
+name: Build and Test
+
+on: [push, pull_request, workflow_call]
+
+jobs:
+  build-and-test:
+    uses: justin8/workflows/.github/workflows/python-build-test.yml@main

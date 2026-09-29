@@ -1,6 +1,7 @@
 import argparse
 import sys
-from typing import Any, Dict, List, Optional
+from typing import Any
+
 from mcp.server.mcpserver import MCPServer
 
 from .auth import get_credentials, get_credentials_path, get_token_path, run_auth_flow
@@ -26,7 +27,7 @@ def _get_client() -> ContactsClient:
 
 
 @server.tool()
-def auth_status() -> Dict[str, Any]:
+def auth_status() -> dict[str, Any]:
     """Check the current authentication status of Google Contacts."""
     creds = get_credentials()
     creds_path = get_credentials_path()
@@ -42,7 +43,7 @@ def auth_status() -> Dict[str, Any]:
 
 
 @server.tool()
-def search_contacts(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
+def search_contacts(query: str, max_results: int = 10) -> list[dict[str, Any]]:
     """Search Google Contacts by name, email, or phone number.
     
     Args:
@@ -54,7 +55,7 @@ def search_contacts(query: str, max_results: int = 10) -> List[Dict[str, Any]]:
 
 
 @server.tool()
-def get_contact(resource_name: str) -> Dict[str, Any]:
+def get_contact(resource_name: str) -> dict[str, Any]:
     """Get complete contact details (phone numbers, addresses, birthdays, emails, notes).
     
     Args:
@@ -65,7 +66,7 @@ def get_contact(resource_name: str) -> Dict[str, Any]:
 
 
 @server.tool()
-def list_contacts(page_size: int = 50, page_token: Optional[str] = None) -> Dict[str, Any]:
+def list_contacts(page_size: int = 50, page_token: str | None = None) -> dict[str, Any]:
     """List Google Contacts with pagination.
     
     Args:
@@ -79,15 +80,15 @@ def list_contacts(page_size: int = 50, page_token: Optional[str] = None) -> Dict
 @server.tool()
 def create_contact(
     given_name: str,
-    family_name: Optional[str] = None,
-    phone_numbers: Optional[List[Dict[str, str]]] = None,
-    email_addresses: Optional[List[Dict[str, str]]] = None,
-    addresses: Optional[List[Dict[str, str]]] = None,
-    birthday: Optional[Dict[str, int]] = None,
-    organization: Optional[str] = None,
-    job_title: Optional[str] = None,
-    notes: Optional[str] = None,
-) -> Dict[str, Any]:
+    family_name: str | None = None,
+    phone_numbers: list[dict[str, str]] | None = None,
+    email_addresses: list[dict[str, str]] | None = None,
+    addresses: list[dict[str, str]] | None = None,
+    birthday: dict[str, int] | None = None,
+    organization: str | None = None,
+    job_title: str | None = None,
+    notes: str | None = None,
+) -> dict[str, Any]:
     """Create a new contact in Google Contacts.
     
     Args:
@@ -118,14 +119,14 @@ def create_contact(
 @server.tool()
 def update_contact(
     resource_name: str,
-    phone_numbers: Optional[List[Dict[str, str]]] = None,
-    email_addresses: Optional[List[Dict[str, str]]] = None,
-    addresses: Optional[List[Dict[str, str]]] = None,
-    birthday: Optional[Dict[str, int]] = None,
-    organization: Optional[str] = None,
-    job_title: Optional[str] = None,
-    notes: Optional[str] = None,
-) -> Dict[str, Any]:
+    phone_numbers: list[dict[str, str]] | None = None,
+    email_addresses: list[dict[str, str]] | None = None,
+    addresses: list[dict[str, str]] | None = None,
+    birthday: dict[str, int] | None = None,
+    organization: str | None = None,
+    job_title: str | None = None,
+    notes: str | None = None,
+) -> dict[str, Any]:
     """Update fields on an existing Google Contact.
     
     Args:
@@ -152,7 +153,7 @@ def update_contact(
 
 
 @server.tool()
-def delete_contact(resource_name: str) -> Dict[str, Any]:
+def delete_contact(resource_name: str) -> dict[str, Any]:
     """Delete a contact from Google Contacts.
     
     Args:
@@ -186,7 +187,7 @@ def main():
 
     if args.auth:
         print("Starting Google OAuth consent flow...")
-        creds = run_auth_flow(port=args.port)
+        run_auth_flow(port=args.port)
         print(f"Successfully authenticated! Tokens saved to {get_token_path()}")
         sys.exit(0)
 

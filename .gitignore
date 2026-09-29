@@ -36,3 +36,10 @@ credentials.json
 token.json
 client_secrets.json
 .config/
+
+# Test & coverage
+.coverage
+coverage.xml
+htmlcov/
+.pytest_cache/
+.ruff_cache/

@@ -1,6 +1,7 @@
-from typing import Any, Dict, List, Optional
-from googleapiclient.discovery import build
+from typing import Any
+
 from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import build
 
 PERSON_FIELDS = (
     "names,emailAddresses,phoneNumbers,addresses,birthdays,organizations,biographies,urls"
@@ -12,7 +13,7 @@ class ContactsClient:
         self.service = build("people", "v1", credentials=credentials, cache_discovery=False)
 
     @staticmethod
-    def _parse_person(person: Dict[str, Any]) -> Dict[str, Any]:
+    def _parse_person(person: dict[str, Any]) -> dict[str, Any]:
         """Convert a Google People API person object into a clean dictionary."""
         resource_name = person.get("resourceName", "")
         etag = person.get("etag", "")
@@ -89,7 +90,7 @@ class ContactsClient:
             "notes": "\n".join(bios),
         }
 
-    def search_contacts(self, query: str, max_results: int = 10) -> List[Dict[str, Any]]:
+    def search_contacts(self, query: str, max_results: int = 10) -> list[dict[str, Any]]:
         """Search contacts by query string (name, email, phone)."""
         response = self.service.people().searchContacts(
             query=query,
@@ -104,7 +105,7 @@ class ContactsClient:
                 results.append(self._parse_person(person))
         return results
 
-    def get_contact(self, resource_name: str) -> Dict[str, Any]:
+    def get_contact(self, resource_name: str) -> dict[str, Any]:
         """Retrieve full contact details by resourceName (e.g. 'people/c12345')."""
         if not resource_name.startswith("people/"):
             resource_name = f"people/{resource_name}"
@@ -115,7 +116,7 @@ class ContactsClient:
         ).execute()
         return self._parse_person(person)
 
-    def list_contacts(self, page_size: int = 50, page_token: Optional[str] = None) -> Dict[str, Any]:
+    def list_contacts(self, page_size: int = 50, page_token: str | None = None) -> dict[str, Any]:
         """List user's contacts with pagination."""
         response = self.service.people().connections().list(
             resourceName="people/me",
@@ -135,17 +136,17 @@ class ContactsClient:
     def create_contact(
         self,
         given_name: str,
-        family_name: Optional[str] = None,
-        phone_numbers: Optional[List[Dict[str, str]]] = None,
-        email_addresses: Optional[List[Dict[str, str]]] = None,
-        addresses: Optional[List[Dict[str, str]]] = None,
-        birthday: Optional[Dict[str, int]] = None,
-        organization: Optional[str] = None,
-        job_title: Optional[str] = None,
-        notes: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        family_name: str | None = None,
+        phone_numbers: list[dict[str, str]] | None = None,
+        email_addresses: list[dict[str, str]] | None = None,
+        addresses: list[dict[str, str]] | None = None,
+        birthday: dict[str, int] | None = None,
+        organization: str | None = None,
+        job_title: str | None = None,
+        notes: str | None = None,
+    ) -> dict[str, Any]:
         """Create a new contact in Google Contacts."""
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "names": [{"givenName": given_name, "familyName": family_name or ""}],
         }
 
@@ -177,7 +178,7 @@ class ContactsClient:
             ]
 
         if birthday:
-            b_dict: Dict[str, Any] = {}
+            b_dict: dict[str, Any] = {}
             if "year" in birthday:
                 b_dict["year"] = birthday["year"]
             if "month" in birthday:
@@ -201,14 +202,14 @@ class ContactsClient:
     def update_contact(
         self,
         resource_name: str,
-        phone_numbers: Optional[List[Dict[str, str]]] = None,
-        email_addresses: Optional[List[Dict[str, str]]] = None,
-        addresses: Optional[List[Dict[str, str]]] = None,
-        birthday: Optional[Dict[str, int]] = None,
-        organization: Optional[str] = None,
-        job_title: Optional[str] = None,
-        notes: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        phone_numbers: list[dict[str, str]] | None = None,
+        email_addresses: list[dict[str, str]] | None = None,
+        addresses: list[dict[str, str]] | None = None,
+        birthday: dict[str, int] | None = None,
+        organization: str | None = None,
+        job_title: str | None = None,
+        notes: str | None = None,
+    ) -> dict[str, Any]:
         """Update fields on an existing contact."""
         if not resource_name.startswith("people/"):
             resource_name = f"people/{resource_name}"
@@ -219,7 +220,7 @@ class ContactsClient:
             personFields=PERSON_FIELDS,
         ).execute()
 
-        body: Dict[str, Any] = {
+        body: dict[str, Any] = {
             "etag": current.get("etag"),
         }
         update_fields = []
@@ -255,7 +256,7 @@ class ContactsClient:
             update_fields.append("addresses")
 
         if birthday is not None:
-            b_dict: Dict[str, Any] = {}
+            b_dict: dict[str, Any] = {}
             if "year" in birthday:
                 b_dict["year"] = birthday["year"]
             if "month" in birthday:

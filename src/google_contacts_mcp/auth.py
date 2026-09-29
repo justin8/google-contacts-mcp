@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from typing import Optional
+
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -32,7 +32,7 @@ def get_token_path() -> Path:
     return get_config_dir() / "token.json"
 
 
-def get_credentials() -> Optional[Credentials]:
+def get_credentials() -> Credentials | None:
     """Load valid user credentials from disk, refreshing if expired."""
     token_path = get_token_path()
     creds = None
@@ -40,7 +40,7 @@ def get_credentials() -> Optional[Credentials]:
     if token_path.exists():
         try:
             creds = Credentials.from_authorized_user_file(str(token_path), SCOPES)
-        except Exception:
+        except (OSError, ValueError):
             creds = None
 
     if creds and creds.expired and creds.refresh_token:
@@ -49,7 +49,7 @@ def get_credentials() -> Optional[Credentials]:
             # Save refreshed credentials
             with open(token_path, "w", encoding="utf-8") as f:
                 f.write(creds.to_json())
-        except Exception:
+        except (OSError, ValueError):
             creds = None
 
     if creds and creds.valid:
@@ -58,7 +58,7 @@ def get_credentials() -> Optional[Credentials]:
     return None
 
 
-def run_auth_flow(credentials_path: Optional[Path] = None, port: int = 8085) -> Credentials:
+def run_auth_flow(credentials_path: Path | None = None, port: int = 8085) -> Credentials:
     """Run interactive OAuth consent flow and save tokens to disk."""
     creds_file = credentials_path or get_credentials_path()
     if not creds_file.exists():
