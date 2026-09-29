@@ -1,5 +1,11 @@
 # Google Contacts MCP Server
 
+[![Current version](https://badge.fury.io/py/google-contacts-mcp.svg)](https://badge.fury.io/py/google-contacts-mcp)
+[![Downloads](https://pepy.tech/badge/google-contacts-mcp/month)](https://pepy.tech/project/google-contacts-mcp)
+
+[![Build status](https://github.com/justin8/google-contacts-mcp/actions/workflows/build-test.yml/badge.svg)](https://github.com/justin8/google-contacts-mcp/actions/workflows/build-test.yml)
+[![codecov](https://codecov.io/gh/justin8/google-contacts-mcp/branch/main/graph/badge.svg)](https://codecov.io/gh/justin8/google-contacts-mcp)
+
 A clean, transparent, and secure [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server for **Google Contacts**, built in Python using official Google and MCP SDKs.
 
 Designed for AI assistants (Antigravity, Claude, Cursor, etc.) to securely query and manage contact details—such as phone numbers, physical addresses, birthdays, and organizations—without duplicating PII across personal notes and markdown vaults.
