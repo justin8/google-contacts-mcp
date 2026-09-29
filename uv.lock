@@ -559,7 +559,7 @@ wheels = [
 
 [[package]]
 name = "google-contacts-mcp"
-version = "1.0.2"
+version = "1.0.3"
 source = { editable = "." }
 dependencies = [
     { name = "google-api-python-client" },
