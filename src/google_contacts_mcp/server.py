@@ -151,6 +151,18 @@ def update_contact(
     )
 
 
+@server.tool()
+def delete_contact(resource_name: str) -> Dict[str, Any]:
+    """Delete a contact from Google Contacts.
+    
+    Args:
+        resource_name: Contact ID (e.g. 'people/c1234567890').
+    """
+    client = _get_client()
+    success = client.delete_contact(resource_name=resource_name)
+    return {"deleted": success, "resource_name": resource_name}
+
+
 def main():
     parser = argparse.ArgumentParser(description="Google Contacts MCP Server")
     parser.add_argument(

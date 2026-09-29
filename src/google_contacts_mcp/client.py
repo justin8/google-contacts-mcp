@@ -285,3 +285,10 @@ class ContactsClient:
             body=body,
         ).execute()
         return self._parse_person(updated)
+
+    def delete_contact(self, resource_name: str) -> bool:
+        """Delete a contact by resourceName."""
+        if not resource_name.startswith("people/"):
+            resource_name = f"people/{resource_name}"
+        self.service.people().deleteContact(resourceName=resource_name).execute()
+        return True
